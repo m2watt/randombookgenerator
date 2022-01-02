@@ -1,0 +1,66 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+    <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body class="center" style="align-items:flex-start">
+<form action="{% url 'home' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
+</form>
+<h1> Books in your library </h1>
+<h2 id="name"></h2>
+<br>
+<img id="image" class="img">
+<script>
+    let title
+    let image;
+    let button;
+</script>
+</body>
+{% if library %}
+        {% for book in library %}
+            <script>
+                title = document.createElement("h2");
+                title.setAttribute('id', '{{book.id}}');
+                title.innerText = unescape("{{ book.book_isbn |safe }}");
+                document.querySelector('body').appendChild(title);
+                image = document.createElement("img");
+                image.setAttribute('id', '{{ book.id }}' + 'image');
+                image.setAttribute('width', 150);
+                image.setAttribute('height', 225);
+                image.src = new URL('{{book.book_thumbnail|safe}}');
+                document.querySelector('body').appendChild(image);
+                button = document.createElement("button");
+                button.setAttribute('id', "button" + '{{book.id}}');
+                button.setAttribute('class', 'back-button');
+                button.innerHTML = "<i class=\"fas fa-minus\"></i>";
+                button.addEventListener('click', function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        url:"http://127.0.0.1:8000/"+ "{{book.book_isbn|safe}}" +"/delete_book/",
+                        type: 'POST',
+                        data:
+                            {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'
+                            },
+                        success: function(data)
+                        {
+                            $('#' + '{{ book.id| safe}}').remove();
+                            $("#" + '{{ book.id }}' + "image").remove();
+                            $("#" + "button" + '{{ book.id }}').remove();
+                        }
+                    })
+                })
+                document.querySelector('body').appendChild(button);
+            </script>
+        {% endfor %}
+{% else %}
+    <p>No books in your library.</p>
+{% endif %}
+
+
+

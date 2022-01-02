@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Random Book</title>
+    <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+    <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<form action="{% url 'home' %}" method="post" style="background-color:white">
+    {% csrf_token %}
+    <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
+</form>
+<div class="center" id="center">
+<div class="center" style="background-color: rgb(78,75,68);width:1000px;border-radius:10px">
+<div id="name" class="book_title" style="color:rgb(214,208,200)"></div>
+<h2 id="author"></h2>
+<button id="add_book_button" type="submit" class="back-button"></button>
+<br>
+<img id="image" class="img2" width="200" height="300">
+<div id="body-content" class="description">
+</div>
+    <form action="{% url 'index' genre %}" method="post">
+        {% csrf_token %}
+        <div id="descriptionload"><i class="fa fa-spinner fa-spin" style="font-size:50px;color:white;"></i></div>
+        <div class="description"  style="color:white"><br>Don't like this book? Chose another...</div>
+        <br> <button type="submit" class="new_book_button"> New Book </button>
+    </form>
+</div>
+</div>
+
+<script type="text/javascript">
+    const num = {{ rand_num }};
+    function handleResponse(response) {
+        $('#descriptionload').hide();
+        const item = response.items[num];
+        // in production code, item.text should have the HTML entities escaped.
+        const image = document.getElementById("image");
+        const name = document.getElementById("name");
+        const author = document.getElementById("author");
+        const add_button = document.getElementById("add_book_button");
+        add_button.innerHTML = '<i class="fas fa-plus"></i>';
+        add_button.addEventListener('click', function(e){
+            e.preventDefault();
+            add_button.innerHTML = "<i class=\"fas fa-check\"></i>";
+            add_button.setAttribute('style', 'color:green');
+            let thumbnail = item.volumeInfo.imageLinks.thumbnail;
+            $.ajax({
+                url:"http://127.0.0.1:8000/"+item.volumeInfo.title+"/add_book/",
+                type: 'POST',
+                data:
+                    {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'thumbnail': thumbnail,
+                    },
+                success: function(){
+                    $('#center').show();
+                    document.getElementById("descriptionload").innerHTML="";
+
+                }
+            })
+        })
+        name.innerText = item.volumeInfo.title;
+        image.src = item.volumeInfo.imageLinks.thumbnail;
+        document.getElementById("body-content").innerHTML += "<br>" + item.volumeInfo.description;
+        author.innerText = item.volumeInfo.authors;
+
+    }
+</script>
+
+{% if genre == 'classic'%}<script src="https://www.googleapis.com/books/v1/volumes?q=inpublisher:Penguin+Classics&maxResults=40&callback=handleResponse"></script>
+{% else %}<script src="https://www.googleapis.com/books/v1/volumes?q=new+york+times+best+sellers+{{genre}}&maxResults=40&callback=handleResponse"></script>
+{% endif %}
+{% if not user.is_authenticated %}
+    <script>
+    document.getElementById('add_book_button').innerHTML = "";
+    </script>
+{% endif %}
+</body>
+</html>
+
+

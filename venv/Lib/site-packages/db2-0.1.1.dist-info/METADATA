@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: db2
+Version: 0.1.1
+Summary: Simple mysql ORM with type checking
+Home-page: https://github.com/abiiranathan/db2
+Author: Dr Abiira Nathan
+Author-email: nabiira2by2@gmail.com
+License: GPL-3
+Keywords: mysql db2 database python3.6 Abiira Nathan
+Platform: Windows 7
+Platform: Windows 8
+Platform: Windows 10
+Platform: Linux/Unix
+Requires-Dist: mysql-connector-python
+
+A python 3.6+ platform independent ORM designed for mysql
+
+

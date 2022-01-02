@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+    <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
+</head>
+<div class="navbar">
+    <div style="flex-grow:1">
+    <h1 style="float:left;padding-left:90px">RandomBookGenerator</h1>
+    <div class="back-button" style="color:rgb(173,161,146)"><i class="fas fa-book"></i></div>
+    </div>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'logout' %}" class="navbarlink">Log Out</a></p>
+        <p><a href="{% url 'my_library' %}" class="navbarlink">Library</a></p>
+    {% else %}
+        <a>You are not logged in</a>
+        <a href="{% url 'login' %}">Log In</a>
+        Or
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+</div>
+<body>
+<div class="center" style="background-color:white">
+<div class="c">
+<h2>Choose a genre</h2>
+<div class="b">
+<form action="{% url 'index' genre='classic' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Classic </button>
+</form>
+<form action="{% url 'index' genre='mystery' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Mystery </button>
+</form>
+<form action="{% url 'index' genre='young adult fiction' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Young Adult Fiction </button>
+</form>
+
+    <form action="{% url 'index' genre='travel' %}" method="post">
+        {% csrf_token %}
+        <br> <button type="submit" class="results_button"> Travel </button>
+    </form>
+</div>
+<div class="b">
+<form action="{% url 'index' genre='fantasy' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Fantasy </button>
+</form>
+<form action="{% url 'index' genre='non fiction' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Non-Fiction </button>
+</form>
+<form action="{% url 'index' genre='science fiction' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Science Fiction </button>
+</form>
+    <form action="{% url 'index' genre='self help' %}" method="post">
+        {% csrf_token %}
+        <br> <button type="submit" class="results_button"> Self Help </button>
+    </form>
+</div>
+<div class="b">
+<form action="{% url 'index' genre='romance' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Romance </button>
+</form>
+<form action="{% url 'index' genre='historical fiction' %}" method="post">
+    {% csrf_token %}
+    <br> <button type="submit" class="results_button"> Historical Fiction </button>
+</form>
+
+    <form action="{% url 'index' genre='poetry' %}" method="post">
+        {% csrf_token %}
+        <br> <button type="submit" class="results_button"> Poetry </button>
+    </form>
+    <form action="{% url 'index' genre='graphic novels' %}" method="post">
+        {% csrf_token %}
+        <br> <button type="submit" class="results_button"> Graphic Novels </button>
+    </form>
+</div>
+    <div class="b">
+        <form action="{% url 'index' genre='music' %}" method="post">
+            {% csrf_token %}
+            <br> <button type="submit" class="results_button"> Music </button>
+        </form>
+        <form action="{% url 'index' genre='horror' %}" method="post">
+            {% csrf_token %}
+            <br> <button type="submit" class="results_button"> Horror </button>
+        </form>
+        <form action="{% url 'index' genre='biography' %}" method="post">
+            {% csrf_token %}
+            <br> <button type="submit" class="results_button"> Biography </button>
+        </form>
+        <form action="{% url 'index' genre='thriller' %}" method="post">
+            {% csrf_token %}
+            <br> <button type="submit" class="results_button"> Thriller </button>
+        </form>
+    </div>
+    <h2>...Or</h2>
+</div>
+    <div class="c2" style="padding-bottom:100px">
+    <h2>Search for a book</h2>
+    <form id="form2" action="{% url 'search_results' search=query1 %}" method="get">
+        {% csrf_token %}
+        <label for="query"></label>
+        <input type="search" name="query1" id="query" placeholder="Title / Author / ISBN">
+        <button style="background-color:transparent; font-size:20px;border:none;color:rgb(173,161,146)"><i class="fas fa-search"></i></button>
+    </form>
+    </div>
+</div>
+<div class="footer">
+    <div style="">
+    <div class="back-button" style="color:rgb(173,161,146);float:right"><i class="fas fa-book"></i></div>
+    <h1 style="float:right">RandomBookGenerator</h1>
+    </div>
+</div>
+</body>
+
+

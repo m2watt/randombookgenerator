@@ -1,0 +1,95 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
+</head>
+<body id="main">
+<form action="{% url 'home' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
+</form>
+
+<script>
+    function handleResponse(response) {
+        for(var i = 0; i < 20; i++)
+        {
+            const item = response.items[i];
+            // in production code, item.text should have the HTML entities escaped.
+            let contain1 = document.createElement("div");
+            contain1.setAttribute('class', 'left');
+            let contain2 = document.createElement("div");
+            contain2.setAttribute('style', "display:flex;flex-direction:row;justify-content:left");
+            let contain3 = document.createElement("div");
+            contain3.setAttribute('style', "display:flex;flex-direction:row;justify-content:space-between;width:1200px");
+            let title = document.createElement("h1");
+            title.setAttribute('id', i.toString() + 'title');
+            title.setAttribute('style', 'width:600px')
+            title.innerText = item.volumeInfo.title;
+            contain3.appendChild(title);
+            let author = document.createElement("h2");
+            author.setAttribute('id', i.toString() + 'author');
+            author.setAttribute('style', 'padding-left:150px;color:rgb(78,75,68)');
+            author.innerText = "By " + item.volumeInfo.authors;
+            let image = document.createElement("img");
+            image.setAttribute('id', i.toString() + 'image');
+            image.setAttribute('width', 150);
+            image.setAttribute('height', 225);
+            image.setAttribute('class', 'img');
+            if(typeof item.volumeInfo.imageLinks == 'undefined'){
+                image.src = "https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg";
+            }
+            else{
+                image.src = item.volumeInfo.imageLinks.thumbnail;
+            }
+            contain2.appendChild(image);
+            let description = document.createElement("div");
+            description.setAttribute('id', i.toString() + 'description');
+            description.setAttribute('class', 'description');
+            description.setAttribute('style', 'color:rgb(78,75,68);padding-left:10px;font-size:15px;text-align:left');
+            description.innerText = item.volumeInfo.description;
+            contain2.appendChild(description);
+            let is_authenticated = '{{ user.is_authenticated }}';
+            if(is_authenticated === 'True') {
+                let plus_button = document.createElement("button");
+                plus_button.setAttribute('id', i.toString() + 'title' + 'plus');
+                plus_button.setAttribute('class', 'back-button');
+                plus_button.innerHTML = '<i class="fas fa-plus"></i>';
+                plus_button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    plus_button.innerHTML = '<i class="fas fa-check"></i>';
+                    plus_button.setAttribute('style', 'color:green');
+                    let thumbnail = item.volumeInfo.imageLinks.thumbnail;
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/" + item.volumeInfo.title + "/add_book/",
+                        type: 'POST',
+                        data:
+                            {
+                                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                                'thumbnail': thumbnail,
+
+                            },
+                    })
+                })
+                contain3.appendChild(plus_button);
+            }
+            contain1.appendChild(contain3);
+            contain1.appendChild(author);
+            contain1.appendChild(contain2);
+            let seperation = document.createElement("div");
+            let contain4 = document.createElement("div");
+            contain4.setAttribute("style", "display:flex;justify-content:center");
+            seperation.setAttribute("style", "height:5px;width:1170px;background-color:#b4b5b8;margin-top:20px");
+            contain4.appendChild(seperation);
+            document.querySelector('body').appendChild(contain1);
+            document.querySelector('body').appendChild(contain4);
+
+        }
+    }
+</script>
+<script src="https://www.googleapis.com/books/v1/volumes?q={{search2}}&maxResults=20&callback=handleResponse"></script>
+</body>
+</html>

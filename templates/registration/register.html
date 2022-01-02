@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+</head>
+<body class="a" style="padding-top:200px;flex-direction:column">
+    <h1 style="padding-left:0px">Create New Account</h1>
+    <div class="a2" style="height:500px">
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
