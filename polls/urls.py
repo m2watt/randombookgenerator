@@ -5,7 +5,7 @@ from polls.views import AddBook, MyLibrary, DeleteBook
 
 
 urlpatterns = [
-    url(r'^home/$', views.home, name='home'),
+    url(r'^$', views.home, name='home'),
     url(r'^index/(?P<genre>[A-Za-z ]*)/$', views.index, name='index'),
     url(r'^(?P<search>.*)/search_results$', views.search_results, name='search_results'),
     url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
