@@ -38,6 +38,9 @@ class Book(models.Model):
     book_isbn = models.CharField(max_length=200)
     book_thumbnail = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ['book_isbn']
+
     def __str__(self):
         return str(self.book_isbn)
 
@@ -140,7 +143,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
+    x = 5
     # Other required fields for authentication
     # If the user is a staff, defaults to false
     is_staff = models.BooleanField(default=False)
@@ -172,6 +175,12 @@ class Library(models.Model):
     def add_book(self, book: Book):
         book.save()
         self.books.add(book)
+
+    def remove_book(self, book_isbn:str):
+        for book in self.books.all():
+            if book.book_isbn == book_isbn:
+                self.books.remove(book)
+
 
     def get_books(self):
         return self.books

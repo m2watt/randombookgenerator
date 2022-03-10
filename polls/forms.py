@@ -1,30 +1,30 @@
 from django import forms
-from .models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.db import models
-from django.core import validators
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+# Create your forms here.
 
 
-class RegistrationForm(UserCreationForm):
+class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = {
-            'email',
-
-        }
+        fields = ["email"]
 
     def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
+        user = super(NewUserForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
+        return user
 
 
-class Loginform(forms.Form):
-    email = forms.CharField(max_length=30, label="Enter email", widget=forms.EmailInput)
-    password = forms.CharField(max_length=30, label='Password',
-                               widget=forms.PasswordInput)
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label='Email / Username')
+
+
 
 

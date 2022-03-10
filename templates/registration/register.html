@@ -5,14 +5,23 @@
 <head>
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
+    <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
 </head>
-<body class="a" style="padding-top:200px;flex-direction:column">
-    <h1 style="padding-left:0px">Create New Account</h1>
+<body>
+<h1 style="align-items:flex-start">
+    <form action="{% url 'home' %}" method="post" style="background-color:white">
+        {% csrf_token %}
+        <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
+    </form>
+</h1>
+<div class="a" style="padding-top:200px;flex-direction:column">
+    <h1 style="padding-left:0px;color:rgb(48,42,39)">Create New Account</h1>
     <div class="a2" style="height:500px">
-        <form method="POST">
+        <form action="{% url 'register' %}" method="post" style="text-align: center;font-size:15px;width:200px;justify-content:center">
             {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit">Register</button>
+            {{ register_form }}
+            <button type="submit" id="submit" class="login_button">Register</button>
         </form>
     </div>
+</div>
 </body>

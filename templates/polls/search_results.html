@@ -24,15 +24,15 @@
             let contain2 = document.createElement("div");
             contain2.setAttribute('style', "display:flex;flex-direction:row;justify-content:left");
             let contain3 = document.createElement("div");
-            contain3.setAttribute('style', "display:flex;flex-direction:row;justify-content:space-between;width:1200px");
+            contain3.setAttribute('style', "display:flex;flex-direction:row;justify-content:space-between;width:1200px;padding-left:50px");
             let title = document.createElement("h1");
             title.setAttribute('id', i.toString() + 'title');
-            title.setAttribute('style', 'width:600px')
+            title.setAttribute('style', 'width:600px;color:rgb(78,75,68)')
             title.innerText = item.volumeInfo.title;
             contain3.appendChild(title);
             let author = document.createElement("h2");
             author.setAttribute('id', i.toString() + 'author');
-            author.setAttribute('style', 'padding-left:150px;color:rgb(78,75,68)');
+            author.setAttribute('style', 'padding-left:50px;color:rgb(78,75,68)');
             author.innerText = "By " + item.volumeInfo.authors;
             let image = document.createElement("img");
             image.setAttribute('id', i.toString() + 'image');
@@ -79,6 +79,7 @@
             contain1.appendChild(contain3);
             contain1.appendChild(author);
             contain1.appendChild(contain2);
+            contain1.setAttribute('style', 'padding-left:100px');
             let seperation = document.createElement("div");
             let contain4 = document.createElement("div");
             contain4.setAttribute("style", "display:flex;justify-content:center");

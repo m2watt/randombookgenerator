@@ -7,18 +7,28 @@
     <link rel="stylesheet" type="text/css" href="{%  static '/polls/style.css' %}"/>
     <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
 </head>
-<body class="a" style="padding-top:200px;flex-direction:column">
+
+<body>
+<h1 style="align-items:flex-start">
+    <form action="{% url 'home' %}" method="post" style="background-color:white">
+        {% csrf_token %}
+        <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
+    </form>
+</h1>
+<div class="a" style="padding-top:200px;flex-direction:column">
     <div style="display:flex;flex-direction:row">
         <h1 style="padding-left:40px;padding-bottom:40px">RandomBookGenerator</h1>
         <div class="back-button"><i class="fas fa-book"></i></div>
     </div>
     <div class="a2">
     <div class="login-title" style="font-size:60px">Welcome</div>
-    <div class="login-title">Login</div>
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Login</button>
-    </form>
+    <div class="login-title" style="color:rgb(48,42,39)">Login</div>
+        <form method="POST" style="font-size:15px;width:200px;justify-content:center">
+            {% csrf_token %}
+            {{ login_form }}
+            <div style="height:10px"></div>
+            <button class="login_button" type="submit">Login</button>
+        </form>
     </div>
+</div>
 </body>

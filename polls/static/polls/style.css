@@ -1,10 +1,8 @@
-
-
 h1{
     color: rgb(214,208,200);
-    padding-left:150px;
+    padding-left:10px;
     font-size:40px;
-    width:450px;
+    width:480px;
     margin:0px;
 }
 
@@ -50,7 +48,7 @@ h2{
 .back-button{
     border: none;
     background:none;
-    color: #dcb0aa;
+    color: rgb(48,42,39);
     width:50px;
     size:100px;
     height:40px;
@@ -141,12 +139,13 @@ img{
 .a2{
     text-align:center;
     height:400px;
-    background-color: #e3b29a;
+    background-color: rgb(214,208,200);
     width:400px;
     border-radius:10px;
     display:flex;
     flex-direction:column;
     justify-content:center;
+    align-items:center;
     animation: fadeInAnimation ease 1500ms;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
@@ -182,6 +181,21 @@ img{
 
 }
 
+.login_button{
+    border-color:black;
+    border-width:0px;
+    background-color:rgb(108, 182, 235);
+    border-radius:5px;
+    font-size:20px;
+    width:200px;
+    height:30px;
+    color:black;
+}
+
+.login_button:hover{
+    color:white;
+    cursor:pointer;
+}
 
 .results_login{
     font-family:'Arial Narrow', "Arial Narrow", sans-serif;
@@ -210,7 +224,7 @@ img{
     flex-direction:column;
     justify-content:flex-start;
     align-content:space-evenly;
-    height:800px;
+    height:600px;
     width:1100px;
     animation: fadeInAnimation ease 1500ms;
     animation-iteration-count: 1;

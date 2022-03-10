@@ -6,37 +6,45 @@
     <script src="https://kit.fontawesome.com/2c620770ba.js" crossorigin="anonymous"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
-<body class="center" style="align-items:flex-start">
+<body>
+<div style="display:flex;flex-direction:row;justify-content:start;column-gap:400px">
 <form action="{% url 'home' %}" method="post">
     {% csrf_token %}
     <button type="submit" class="back-button"><i class="fas fa-chevron-left"></i></button>
 </form>
-<h1> Books in your library </h1>
-<h2 id="name"></h2>
-<br>
-<img id="image" class="img">
+    <h1 style="color:rgb(48,42,39)"> Books in your library </h1>
+</div>
+
+<div id="books" style="display:flex; flex-direction:row;flex-wrap:wrap;padding-left:100px;padding-top:100px">
 <script>
     let title
     let image;
     let button;
+    let wrapper;
 </script>
+</div>
 </body>
 {% if library %}
         {% for book in library %}
             <script>
-                title = document.createElement("h2");
+                title = document.createElement("div");
+                wrapper = document.createElement("div");
+                wrapper.setAttribute('id', '{{book.id}}');
+                wrapper.setAttribute('style', 'display:flex;flex-direction:row; width:400px');
                 title.setAttribute('id', '{{book.id}}');
+                title.setAttribute('style', 'color: rgb(48,42,39);font-size:30px;width:300px:margin:20px');
                 title.innerText = unescape("{{ book.book_isbn |safe }}");
-                document.querySelector('body').appendChild(title);
+                wrapper.append(title);
                 image = document.createElement("img");
                 image.setAttribute('id', '{{ book.id }}' + 'image');
-                image.setAttribute('width', 150);
-                image.setAttribute('height', 225);
+                image.setAttribute('width', 225);
+                image.setAttribute('height', 300);
+                image.setAttribute('style', 'padding:10px');
                 image.src = new URL('{{book.book_thumbnail|safe}}');
-                document.querySelector('body').appendChild(image);
                 button = document.createElement("button");
                 button.setAttribute('id', "button" + '{{book.id}}');
                 button.setAttribute('class', 'back-button');
+                button.setAttribute('style', 'color:#e35417');
                 button.innerHTML = "<i class=\"fas fa-minus\"></i>";
                 button.addEventListener('click', function(e){
                     e.preventDefault();
@@ -55,7 +63,12 @@
                         }
                     })
                 })
-                document.querySelector('body').appendChild(button);
+                wrapper.appendChild(button);
+                wrapper2 = document.createElement("div");
+                wrapper2.setAttribute('style', 'display:flex;align-items:start;flex-direction:column');
+                wrapper2.append(wrapper);
+                wrapper2.append(image);
+                document.getElementById('books').appendChild(wrapper2);
             </script>
         {% endfor %}
 {% else %}
